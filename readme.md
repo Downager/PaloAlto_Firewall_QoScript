@@ -31,7 +31,7 @@ pip install pandas configparser requests
 
 ## generateHTML.csv
 GenerateHTML.py: 讀取 report.csv & nowlock.csv，傳輸量轉換為 GB 並加上鎖定日期
-保存六天內資料（三日內超流三次 + 鎖定三天）
+保存六天內資料（三日內超流三次 + 鎖定三天），修改 config.ini 會自動調整保存日期長度（M + O 天）
 欄位分別是 '日期', '使用者名稱', '總流量', '下載量', '上傳量', '鎖定日期'
 
 ## /var/www/public/index.html
