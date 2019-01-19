@@ -13,7 +13,8 @@ pip install pandas configparser requests
 ## 排程腳本
 0 3 * * * /home/logicalis/QoScript_Venv.sh
 
-## config.ini 設定
+## config.ini
+從外部讀取 QoScript.py 運作參數，一般調整只需要修改此檔案即可
 [Default]: 設定帳號密碼IP
 [OverFlow Setting]: 設定超流細項
 > M 天內超流 N 次便鎖定 O 天
