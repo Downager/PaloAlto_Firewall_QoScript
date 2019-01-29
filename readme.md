@@ -1,4 +1,4 @@
-# QoScript 說明
+# WiFi_QoS_Script 說明
 
 ## 執行環境 Python3.6 virtualenv
 sudo yum install centos-release-scl
