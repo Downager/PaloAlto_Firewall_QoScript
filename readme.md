@@ -5,9 +5,11 @@ sudo yum install centos-release-scl
 sudo yum install rh-python36
 scl enable rh-python36 bash
 mkdir /home/logicalis/WiFi_QoS_Script
-python -m venv /home/logicalis/WiFi_QoS_Script
-source /home/logicalis/WiFi_QoS_Script/bin/activate
+mkdir /home/logicalis/WiFi_QoS_Script/WiFi_QoS_Script
+python -m venv /home/logicalis/WiFi_QoS_Script/WiFi_QoS_Script
+source /home/logicalis/WiFi_QoS_Script/WiFi_QoS_Script/bin/activate
 
+pip install --upgrade pip
 pip install pandas configparser requests
 
 ## 排程腳本
