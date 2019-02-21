@@ -167,12 +167,12 @@ def pushOverflowuser(userlist, key, hostip):
 # 定義 pushCommit 函式推送 Commit & Description
 # 發出以下 URL 來取得包含 commit status 的 XML 格式, 再經由處理後回傳 commitStatus 字串
 # https://<hostip>/api/?type=commit&xpath=/config/devices/&cmd=<'<commit><description>' + description + '</description></commit>'>&key=<key>
-def pushCommit(description, key, hostip):
+def pushCommit(key, hostip):
     paramsCommit = {
         'type': 'commit',
         'xpath': '/config/devices/',
         'cmd':
-        '<commit><description>' + description + '</description></commit>',
+        '<commit><partial><admin><member>' + UserName + '</member></admin></partial></commit>',
         'key': key
     }
     xmlCommit = requests.get(
@@ -348,4 +348,4 @@ else:
         print(timestamp(), '推送失敗，間隔一秒後重新推送 \n new-pushResult: ', pushResult)
         time.sleep(1)
 
-print(timestamp(), 'pushCommit() 結果: ', pushCommit('', apikey, FireWallAddr))
+print(timestamp(), 'pushCommit() 結果: ', pushCommit(apikey, FireWallAddr))
