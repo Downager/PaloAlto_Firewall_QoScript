@@ -19,7 +19,7 @@ pip install pandas configparser requests
 從外部讀取 QoScript.py 運作參數，一般調整只需要修改此檔案即可
 [Default]: 設定帳號密碼IP
 [OverFlow Setting]: 設定超流細項
-> M 天內超流 N 次便鎖定 O 天
+> 連續超流 N 天便鎖定 O 天
 
 
 ## report.csv 
@@ -33,7 +33,7 @@ pip install pandas configparser requests
 
 ## generateHTML.csv
 GenerateHTML.py: 讀取 report.csv & nowlock.csv，傳輸量轉換為 GB 並加上鎖定日期
-保存六天內資料（三日內超流三次 + 鎖定三天），修改 config.ini 會自動調整保存日期長度（M + O 天）
+保存六天內資料（連續超流三天 + 鎖定三天），修改 config.ini 會自動調整保存日期長度（N + O 天）
 欄位分別是 '日期', '使用者名稱', '總流量', '下載量', '上傳量', '鎖定日期'
 
 ## /var/www/public/index.html
