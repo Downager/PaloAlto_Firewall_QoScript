@@ -23,8 +23,7 @@ PassWord = str(config['Default']['PassWord'])
 # 設定超流鎖定參數 [OverFlow Setting]
 # Quota 將 GigaBytes 轉成 Bytes
 Quota = (int(config['OverFlow Setting']['Quota']) * 1000000000)
-TriggerDateRange = int(config['OverFlow Setting']['TriggerDateRange'])
-TriggerCount = int(config['OverFlow Setting']['TriggerCount'])
+DaysofOverFlow = int(config['OverFlow Setting']['DaysofOverFlow'])
 DaysofLock = int(config['OverFlow Setting']['DaysofLock'])
 
 
@@ -186,15 +185,15 @@ def pushCommit(key, hostip):
     return commitStatus
 
 
-# 讀取 report.csv，刪除超過 M 天以前結果
+# 讀取 report.csv，刪除超過 N 天以前結果
 def delete_Ndaysago_report(dfUserList):
 
-    # 取得 M 日前日期（以今日為基準）
-    # 修改 days=TriggerDateRange (config: TriggerDateRange) 調整資料要保留 M 天
-    keepdate = pd.Timestamp(datetime.date.today() - datetime.timedelta(days=TriggerDateRange))
+    # 取得 N 日前日期（以今日為基準）
+    # 修改 days=DaysofOverFlow (config: DaysofOverFlow) 調整資料要保留 N 天
+    keepdate = pd.Timestamp(datetime.date.today() - datetime.timedelta(days=DaysofOverFlow))
     dfUserList = (dfUserList[dfUserList['日期'] >= keepdate])
 
-    # 將刪除 M 日前資料之 dataframe 覆蓋 report.csv (mode: 'w', 刪除舊資料後存入)
+    # 將刪除 N 日前資料之 dataframe 覆蓋 report.csv (mode: 'w', 刪除舊資料後存入)
     f = open('report.csv', 'w')
     f.write(pd.DataFrame.to_csv(dfUserList, index=False, header=False))
     f.close()
@@ -202,13 +201,13 @@ def delete_Ndaysago_report(dfUserList):
     return dfUserList
 
 
-# 傳入 report.csv M 日內超流名單，並提取 nowlock.csv [鎖定日期, 超流使用者]
+# 傳入 report.csv N 日內超流名單，並提取 nowlock.csv [鎖定日期, 超流使用者]
 def create_nowlock(dfUserList):
 
-    # 取得歷史資料內 M 日內超流 N 次名單
+    # 取得歷史資料內連續超流 N 天名單
     usercount = dfUserList.groupby('使用者名稱').size()
-    # 修改 usercount == TriggerCount (config: TriggerCount) 調整 M 日內超流 N 次便鎖定
-    overflowlist = usercount[usercount == TriggerCount].index.tolist()
+    # 修改 usercount == DaysofOverFlow (config: DaysofOverFlow) 等同連續超流 N 天
+    overflowlist = usercount[usercount == DaysofOverFlow].index.tolist()
     dictNewlock = {
         '鎖定日期': (datetime.date.today()),
         '超流使用者': overflowlist
