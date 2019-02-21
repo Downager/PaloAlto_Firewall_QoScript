@@ -16,10 +16,10 @@ config = configparser.ConfigParser()
 config.read('config.ini', encoding='utf8')
 
 # 讀取超流鎖定參數 [OverFlow Setting]
-TriggerDateRange = int(config['OverFlow Setting']['TriggerDateRange'])
+DaysofOverFlow = int(config['OverFlow Setting']['DaysofOverFlow'])
 DaysofLock = int(config['OverFlow Setting']['DaysofLock'])
-# DaysofKeepHTML = 超流 M 天 + 鎖定 O 天
-DaysofKeepHTML = TriggerDateRange + DaysofLock
+# DaysofKeepHTML = 超流 N 天 + 鎖定 O 天
+DaysofKeepHTML = DaysofOverFlow + DaysofLock
 
 # 設置只輸出到小數第二位
 pd.set_option('precision', 2)
@@ -52,10 +52,10 @@ f = open('generateHTML.csv', 'a')
 f.write(pd.DataFrame.to_csv(dfReport, index=False, header=False))
 f.close()
 
-# 移除 generate.csv 超過 M + O 天前的資料（超流 M 天 + 鎖定 O 天）
+# 移除 generate.csv 超過 N + O 天前的資料（連續超流 N 天 + 鎖定 O 天）
 dfRemoved = pd.read_csv('generateHTML.csv', names=['日期', '使用者名稱', '總流量', '下載量', '上傳量', '鎖定日期'])
 dfRemoved['日期'] = pd.to_datetime(dfRemoved['日期'])
-# 保留日期 = 今天日期 - DaysofKeepHTML（超流 M 天 + 鎖定 O 天）
+# 保留日期 = 今天日期 - DaysofKeepHTML（連續超流 N 天 + 鎖定 O 天）
 keepdate = pd.Timestamp(datetime.date.today() - datetime.timedelta(days=DaysofKeepHTML))
 dfRemoved = (dfRemoved[dfRemoved['日期'] >= keepdate])
 f = open('generateHTML.csv', 'w')
@@ -64,7 +64,7 @@ f.close()
 
 # 讀取 generateHTML.csv，產生 OverFlow.html
 dfHTML = pd.read_csv('generateHTML.csv', names=['超流日期', '使用者名稱', '總流量(GB)', '下載量(GB)', '上傳量(GB)', '鎖定日期'])
-f = open('/var/www/public/index.html', 'w')
+f = open('index.html', 'w')
 f.write(pd.DataFrame.to_html(dfHTML, index=False))
 f.close()
 
