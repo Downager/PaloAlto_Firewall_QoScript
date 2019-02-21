@@ -64,7 +64,7 @@ f.close()
 
 # 讀取 generateHTML.csv，產生 OverFlow.html
 dfHTML = pd.read_csv('generateHTML.csv', names=['超流日期', '使用者名稱', '總流量(GB)', '下載量(GB)', '上傳量(GB)', '鎖定日期'])
-f = open('index.html', 'w')
+f = open('/var/www/public/index.html', 'w')
 f.write(pd.DataFrame.to_html(dfHTML, index=False))
 f.close()
 
