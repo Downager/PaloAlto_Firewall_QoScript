@@ -1,5 +1,4 @@
-# QoScript 說明
-
+# PaloAlto Firewall API QoScript
 ## 執行環境 Python3.6 virtualenv
 sudo yum install centos-release-scl
 sudo yum install rh-python36
@@ -34,22 +33,20 @@ Web server: Nginx
 
 ## 參數調整說明
 ### 若連續超流 N 日便鎖定 M 日，請調整以下區塊
+```
+QoScripy.py
+    def delete_Ndaysago_report(dfUserList):
+        # days=3 修改為 N
+        keepdate = pd.Timestamp(datetime.date.today() - datetime.timedelta(days=3))
 
->QoScripy.py
->    def delete_Ndaysago_report(dfUserList):
->        # days=3 修改為 N
->        keepdate = pd.Timestamp(datetime.date.today() - datetime.timedelta(days=3))
->
->    def create_nowlock(dfUserList):
->        # usercount == 3 修改為 N
->        overflowlist = usercount[usercount == 3].index.tolist()
->
->    def delete_lockedNdays(dfLocked):
->        # days=3  修改為 M 
->        lockeddate = pd.Timestamp(datetime.date.today() - datetime.timedelta(days=3))
+    def create_nowlock(dfUserList):
+        # usercount == 3 修改為 N
+        overflowlist = usercount[usercount == 3].index.tolist()
 
-
->GenerateHTML.py
->    # 若連續超流日數 or 鎖定日數有修改，請調整 days=6 為 N + M 天
->    keepdate = pd.Timestamp(datetime.date.today() - datetime.timedelta(days=6))
-
+    def delete_lockedNdays(dfLocked):
+        # days=3  修改為 M 
+        lockeddate = pd.Timestamp(datetime.date.today() - datetime.timedelta(days=3))
+GenerateHTML.py
+    # 若連續超流日數 or 鎖定日數有修改，請調整 days=6 為 N + M 天
+    keepdate = pd.Timestamp(datetime.date.today() - datetime.timedelta(days=6))
+```
