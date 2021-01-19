@@ -1,15 +1,17 @@
 # PaloAlto Firewall API QoScript
 ## 執行環境 Python3.6 virtualenv
+```
 sudo yum install centos-release-scl
 sudo yum install rh-python36
 scl enable rh-python36 bash
 mkdir /home/logicalis/WiFi_QoS_Script
 python -m venv /home/logicalis/WiFi_QoS_Script
 source /home/logicalis/WiFi_QoS_Script/bin/activate
-
+```
 ## 排程腳本
+```
 0 3 * * * /home/logicalis/QoScript_Venv.sh
-
+```
 ## report.csv 
 儲存每日流量 > 50G 的學生帳號（排除非學生帳號），並且會自動清除超過三日之超流紀錄
 欄位分別是 '日期', '使用者名稱', '總流量', '下載量', '上傳量'
