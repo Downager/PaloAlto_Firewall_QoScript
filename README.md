@@ -13,21 +13,21 @@ source /home/logicalis/WiFi_QoS_Script/bin/activate
 0 3 * * * /home/logicalis/QoScript_Venv.sh
 ```
 ## report.csv 
-儲存每日流量 > 50G 的學生帳號（排除非學生帳號），並且會自動清除超過三日之超流紀錄
+儲存每日流量 > 50G 的學生帳號（排除非學生帳號），並且會自動清除超過三日之超流紀錄  
 欄位分別是 '日期', '使用者名稱', '總流量', '下載量', '上傳量'
 
 ## nowlock.csv 
-儲存著從 report.csv 內撈出次數 == 3 的帳號（三日內超流三次），並自動推送至 Paloalto QoS 名單內
-鎖定三日後會自動從名單中移除
+儲存著從 report.csv 內撈出次數 == 3 的帳號（三日內超流三次），並自動推送至 Paloalto QoS 名單內  
+鎖定三日後會自動從名單中移除  
 欄位分別是 '鎖定日期', '使用者名稱'
 
 ## generateHTML.csv
-GenerateHTML.py: 讀取 report.csv & nowlock.csv，傳輸量轉換為 GB 並加上鎖定日期
-保存六天內資料（三日內超流三次 + 鎖定三天）
+GenerateHTML.py: 讀取 report.csv & nowlock.csv，傳輸量轉換為 GB 並加上鎖定日期  
+保存六天內資料（三日內超流三次 + 鎖定三天）  
 欄位分別是 '日期', '使用者名稱', '總流量', '下載量', '上傳量', '鎖定日期'
 
 ## /var/www/public/index.html
-讀取 generateHTML.csv 後產生出 html 檔案（保留六天）
+讀取 generateHTML.csv 後產生出 html 檔案（保留六天）  
 Web server: Nginx
 
 ## LOGS
